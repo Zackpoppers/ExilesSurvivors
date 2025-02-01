@@ -1,18 +1,28 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float Health = 50f;
+    [SerializeField] EnemyTier Tier = EnemyTier.Normal;
+    [SerializeField] List<Modifier> Modifiers = new List<Modifier>();
+
+    public void TakeDamage(float damage)
     {
-        
+        Health -= damage;
+        if (Health <= 0) Die();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Die()
     {
-        
+        Debug.Log("Enemy Died!");
+        Destroy(gameObject);
     }
+}
+
+public enum EnemyTier
+{
+    Normal,
+    Magic,
+    Rare
 }

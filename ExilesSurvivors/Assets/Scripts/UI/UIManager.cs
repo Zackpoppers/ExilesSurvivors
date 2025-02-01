@@ -1,18 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static UIManager Instance;
+
+    [SerializeField] HealthBar healthBar;
+    [SerializeField] SkillHotbar skillHotbar;
+    [SerializeField] InventoryUI inventoryUI; // Ensure this matches the class name
+
+    private void Awake()
     {
-        
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize(Player player)
     {
+        
+        healthBar.Initialize(player);
+        skillHotbar.Initialize(player);
+        inventoryUI.Initialize(player.Inventory); // Initialize the inventory UI
         
     }
 }

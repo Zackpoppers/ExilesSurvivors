@@ -1,18 +1,25 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public string Name;
+    public float Cooldown = 2f;
+    public int Level = 1;
+    public bool IsAwakened = false;
+
+    private float _lastUsedTime;
+
+    public void Activate()
     {
-        
+        if (Time.time - _lastUsedTime < Cooldown) return;
+        Debug.Log($"{Name} activated!");
+        _lastUsedTime = Time.time;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LevelUp()
     {
-        
+        Level++;
+        Debug.Log($"{Name} leveled up to {Level}!");
     }
 }

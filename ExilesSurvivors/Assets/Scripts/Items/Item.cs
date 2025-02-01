@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item
 {
-    // Start is called before the first frame update
-    void Start()
+    public string Name; // Add this line
+    public string Description;
+    public Dictionary<string, float> Stats;
+
+    public void Equip(Player player)
     {
-        
+        Debug.Log($"Equipped {Name}!");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Unequip(Player player)
     {
-        
+        Debug.Log($"Unequipped {Name}!");
     }
 }

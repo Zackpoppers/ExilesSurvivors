@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,10 +7,15 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject zonePrefab;
 
-    [SerializeField] Player player;
-    [SerializeField] WaveManager waveManager;
-    [SerializeField] UIManager uiManager;
-    [SerializeField] Zone currentZone;
+    [SerializeField] private Player player;  // Make private and use a property for access
+    [SerializeField] private WaveManager waveManager;
+    [SerializeField] private UIManager uiManager;
+    [SerializeField] private Zone currentZone;
+
+    public Player Player  // Public property to access the player
+    {
+        get { return player; }
+    }
 
     private void Awake()
     {

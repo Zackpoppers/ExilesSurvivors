@@ -7,11 +7,13 @@ public class Zone : MonoBehaviour
     public int size = 50; // Size of the zone (width and height)
     public float gridSpacing = 20f; // Distance between pathways (slightly larger than screen length)
     public int buildingsPerGrid = 1; // Number of buildings per grid cell
+    public float boundaryRadius = 25f; // Radius of the circular boundary
 
     [Header("Prefabs")]
     public GameObject groundTilePrefab; // Prefab for ground tiles
     public GameObject pathTilePrefab; // Prefab for pathway tiles
     public GameObject buildingPrefab; // Prefab for buildings
+    public GameObject wallPrefab; // Prefab for the boundary wall
 
     [Header("Ground Colors")]
     public Color[] groundColors; // Colors for the ground based on noise values
@@ -39,6 +41,12 @@ public class Zone : MonoBehaviour
 
         // Generate buildings
         GenerateBuildings();
+
+        // Delete objects outside the boundary
+        DeleteObjectsOutsideBoundary();
+
+        // Build the circular boundary wall
+        BuildBoundaryWall();
     }
 
     private void ClearZone()
@@ -125,6 +133,9 @@ public class Zone : MonoBehaviour
         // Calculate the number of grid cells
         int gridCells = Mathf.FloorToInt(size / gridSpacing);
 
+        // Track occupied positions to prevent overlap
+        HashSet<Vector2Int> occupiedPositions = new HashSet<Vector2Int>();
+
         for (int x = -gridCells; x < gridCells; x++)
         {
             for (int y = -gridCells; y < gridCells; y++)
@@ -132,18 +143,43 @@ public class Zone : MonoBehaviour
                 // Randomly decide if a building should be placed in this grid cell
                 if (Random.Range(0, 100) < buildingsPerGrid * 100)
                 {
-                    // Randomize building position within the grid cell
-                    Vector3 buildingPosition = new Vector3(
-                        x * gridSpacing + Random.Range(-gridSpacing / 2, gridSpacing / 2),
-                        y * gridSpacing + Random.Range(-gridSpacing / 2, gridSpacing / 2),
-                        0
-                    );
+                    // Try to place a building in this grid cell
+                    bool buildingPlaced = false;
+                    int attempts = 0; // Limit the number of placement attempts
 
-                    // Ensure buildings don't spawn on pathways
-                    if (!IsOnPathway(buildingPosition))
+                    while (!buildingPlaced && attempts < 10) // Try up to 10 times
                     {
-                        GameObject building = Instantiate(buildingPrefab, buildingPosition, Quaternion.identity, transform);
-                        building.name = $"Building_{x}_{y}";
+                        // Randomize building position within the grid cell
+                        Vector3 buildingPosition = new Vector3(
+                            x * gridSpacing + Random.Range(-gridSpacing / 2, gridSpacing / 2),
+                            y * gridSpacing + Random.Range(-gridSpacing / 2, gridSpacing / 2),
+                            0
+                        );
+
+                        // Round the position to the nearest integer to use as a key
+                        Vector2Int roundedPosition = new Vector2Int(
+                            Mathf.RoundToInt(buildingPosition.x),
+                            Mathf.RoundToInt(buildingPosition.y)
+                        );
+
+                        // Check if the position is not on a pathway and not already occupied
+                        if (!IsOnPathway(buildingPosition) && !occupiedPositions.Contains(roundedPosition))
+                        {
+                            // Place the building
+                            GameObject building = Instantiate(buildingPrefab, buildingPosition, Quaternion.identity, transform);
+                            building.name = $"Building_{x}_{y}";
+
+                            // Mark the position as occupied
+                            occupiedPositions.Add(roundedPosition);
+                            buildingPlaced = true;
+                        }
+
+                        attempts++;
+                    }
+
+                    if (!buildingPlaced)
+                    {
+                        Debug.LogWarning($"Failed to place building in grid cell ({x}, {y}) after {attempts} attempts.");
                     }
                 }
             }
@@ -154,5 +190,45 @@ public class Zone : MonoBehaviour
     {
         // Check if the position is on a pathway
         return Mathf.Abs(position.x % gridSpacing) < 0.5f || Mathf.Abs(position.y % gridSpacing) < 0.5f;
+    }
+
+    private void DeleteObjectsOutsideBoundary()
+    {
+        // Iterate through all child objects in the zone
+        foreach (Transform child in transform)
+        {
+            // Check if the object is outside the boundary radius
+            if (Vector3.Distance(child.position, Vector3.zero) > boundaryRadius)
+            {
+                // Destroy the object
+                Destroy(child.gameObject);
+            }
+        }
+    }
+
+    private void BuildBoundaryWall()
+    {
+        // Number of wall segments to create a smooth circle
+        int wallSegments = 100;
+
+        for (int i = 0; i < wallSegments; i++)
+        {
+            // Calculate the angle for this wall segment
+            float angle = i * (360f / wallSegments);
+
+            // Convert the angle to a position on the perimeter
+            Vector3 wallPosition = new Vector3(
+                Mathf.Cos(angle * Mathf.Deg2Rad) * boundaryRadius,
+                Mathf.Sin(angle * Mathf.Deg2Rad) * boundaryRadius,
+                0
+            );
+
+            // Instantiate the wall segment
+            GameObject wallSegment = Instantiate(wallPrefab, wallPosition, Quaternion.identity, transform);
+            wallSegment.name = $"WallSegment_{i}";
+
+            // Rotate the wall segment to face outward
+            wallSegment.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
+        }
     }
 }

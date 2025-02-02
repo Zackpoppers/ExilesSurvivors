@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ebb45fd4a777649a647e26601f1eba, type: 3}
   m_Name: FireballGem
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 3987807337699059250, guid: 5aa63531dba8022479a14312bc51e19c, type: 3}
   Name: 
   Description: 
   Icon: {fileID: 0}
@@ -19,6 +20,7 @@ MonoBehaviour:
   BaseDamage: 1
   Level: 1
   IsAwakened: 0
-  projectilePrefab: {fileID: 3987807337699059250, guid: 5aa63531dba8022479a14312bc51e19c, type: 3}
+  SupportGems:
+  - {fileID: 11400000, guid: 9ada0d3f816c28f4aadf998672a8203e, type: 2}
   projectileSpeed: 10
   explosionRadius: 1

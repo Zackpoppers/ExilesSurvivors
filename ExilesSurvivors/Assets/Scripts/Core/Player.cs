@@ -27,7 +27,9 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) && ActiveSkills.Count > 0)
         {
+            ActiveSkills[0].SupportGems[0].ApplySupport(ActiveSkills[0]);
             ActiveSkills[0].Activate(this);
+            
         }
     }
 

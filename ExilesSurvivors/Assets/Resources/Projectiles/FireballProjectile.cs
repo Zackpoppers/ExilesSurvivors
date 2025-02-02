@@ -1,7 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FireballProjectile : MonoBehaviour
 {
+    // Event triggered when the fireball explodes
+    public System.Action<Vector2, Vector2, GameObject> OnExplode;
+
     [Header("Settings")]
     public float speed = 10f;
     public float damage = 20f;
@@ -13,12 +18,14 @@ public class FireballProjectile : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _rb.velocity = _direction * speed; // Set initial velocity
+        _rb.velocity = _direction * speed;
     }
 
     public void Initialize(Vector2 direction)
     {
-        _direction = direction.normalized;
+        _direction = direction;
+        _rb = GetComponent<Rigidbody2D>();
+        _rb.velocity = _direction * speed;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -32,17 +39,16 @@ public class FireballProjectile : MonoBehaviour
 
     private void Explode()
     {
-        // Damage enemies in radius
+        // Trigger the explosion event
+        OnExplode?.Invoke(transform.position, _direction, gameObject);
+
+        // Damage enemies
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.CompareTag("Enemy"))
             {
-                Enemy enemyScript = enemy.GetComponent<Enemy>();
-                if (enemyScript != null)
-                {
-                    enemyScript.TakeDamage(damage);
-                }
+                enemy.GetComponent<Enemy>().TakeDamage(damage);
             }
         }
     }

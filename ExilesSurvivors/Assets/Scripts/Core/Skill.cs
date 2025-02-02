@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Skill : ScriptableObject
 {
     [Header("Base Gem Properties")]
+    public GameObject projectilePrefab;
     public string Name;
     public string Description;
     public Sprite Icon;
@@ -12,6 +13,7 @@ public abstract class Skill : ScriptableObject
     public float BaseDamage = 1f;
     public int Level = 1;
     public bool IsAwakened = false;
+    public List<SupportGem> SupportGems = new List<SupportGem>();
 
     private float _lastUsedTime;
 

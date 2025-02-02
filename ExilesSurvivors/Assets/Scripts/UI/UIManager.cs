@@ -8,6 +8,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] HealthBar healthBar;
     [SerializeField] SkillHotbar skillHotbar;
     [SerializeField] InventoryUI inventoryUI; // Ensure this matches the class name
+    public ItemGrid selectedItemGrid;
+
+    private void Update()
+    {
+        if (selectedItemGrid == null) { return; }
+
+        selectedItemGrid.GetTileGridPosition(Input.mousePosition);
+        Debug.Log(selectedItemGrid.GetTileGridPosition(Input.mousePosition));
+    }
 
     private void Awake()
     {

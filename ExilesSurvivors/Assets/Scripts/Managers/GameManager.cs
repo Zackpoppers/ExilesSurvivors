@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         currentZone = Instantiate(zonePrefab, Vector3.zero, Quaternion.identity).GetComponent<Zone>();
         currentZone.Generate(); // Generate the zone
         waveManager.StartWaves();
-        uiManager.Initialize(player);
+        //uiManager.Initialize(player);
     }
 
     public void EndGame()

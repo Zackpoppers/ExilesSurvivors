@@ -346,6 +346,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8babbb956c6f8a448aaeb4e5f07d564c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridSizeWidth: 12
+  gridSizeHeight: 5
 --- !u!114 &482447352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,10 +632,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ebda5ef7be2ef46a697f7928459ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 1802680246}
-  skillHotbar: {fileID: 756830326}
-  inventoryUI: {fileID: 0}
-  selectedItemGrid: {fileID: 482447351}
+  selectedItemGrid: {fileID: 0}
+  items:
+  - {fileID: 11400000, guid: ee5544ca8a666be4fa41c72f5c8de523, type: 2}
+  - {fileID: 11400000, guid: 368ef56186282044e917191633d60b56, type: 2}
+  - {fileID: 11400000, guid: 772f230d88903024baff74880a043442, type: 2}
+  itemPrefab: {fileID: 3276866654776584212, guid: 57f84a30592ca324190d3f11def9e5a1, type: 3}
+  canvasTransform: {fileID: 373495271}
 --- !u!114 &1357774051
 MonoBehaviour:
   m_ObjectHideFlags: 0

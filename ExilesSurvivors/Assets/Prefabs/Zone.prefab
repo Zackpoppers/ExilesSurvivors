@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2bc25f67d3a8c4db61783e2114b8f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 300
+  size: 50
   gridSpacing: 20
   buildingsPerGrid: 1
-  boundaryRadius: 100
+  boundaryRadius: 25
   groundTilePrefab: {fileID: 5340593397711450353, guid: 918da5c083557a740abe7c177915bf69, type: 3}
   pathTilePrefab: {fileID: 7021413748994696908, guid: 164ca34af6a242d40b2028fa4699ff60, type: 3}
   buildingPrefab: {fileID: 2513774245406922321, guid: 301f1cfbbec61404fa3656c8f2e7f0aa, type: 3}

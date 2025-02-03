@@ -1,35 +1,82 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance;
-
-    [SerializeField] HealthBar healthBar;
-    [SerializeField] SkillHotbar skillHotbar;
-    [SerializeField] InventoryUI inventoryUI; // Ensure this matches the class name
+    [HideInInspector]
     public ItemGrid selectedItemGrid;
+
+    InventoryItem selectedItem;
+    RectTransform rectTransform;
+
+    public List<ItemData> items;
+    public GameObject itemPrefab;
+    public Transform canvasTransform;
 
     private void Update()
     {
+        ItemIconDrag();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            CreateRandomItem();
+        }
+
         if (selectedItemGrid == null) { return; }
 
-        selectedItemGrid.GetTileGridPosition(Input.mousePosition);
-        Debug.Log(selectedItemGrid.GetTileGridPosition(Input.mousePosition));
+        if (Input.GetMouseButtonDown(0))
+        {
+            LeftMouseButtonPress();
+        }
     }
 
-    private void Awake()
+    private void CreateRandomItem()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        InventoryItem inventoryItem = Instantiate(itemPrefab).GetComponent<InventoryItem>();
+        selectedItem = inventoryItem;
+
+        rectTransform = inventoryItem.GetComponent<RectTransform>();
+        rectTransform.SetParent(canvasTransform);
+
+        int selectedItemID = UnityEngine.Random.Range(0, items.Count);
+        inventoryItem.Set(items[selectedItemID]);
     }
 
-    public void Initialize(Player player)
+    private void LeftMouseButtonPress()
     {
-        
-        healthBar.Initialize(player);
-        skillHotbar.Initialize(player);
-        inventoryUI.Initialize(player.Inventory); // Initialize the inventory UI
-        
+        Vector2Int tileGridPosition = selectedItemGrid.GetTileGridPosition(Input.mousePosition);
+
+        if (selectedItem == null)
+        {
+            PickUpItem(tileGridPosition);
+        }
+        else
+        {
+            PlaceItem(tileGridPosition);
+        }
+    }
+
+    private void PlaceItem(Vector2Int tileGridPosition)
+    {
+        selectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y);
+        selectedItem = null;
+    }
+
+    private void PickUpItem(Vector2Int tileGridPosition)
+    {
+        selectedItem = selectedItemGrid.PickupItem(tileGridPosition.x, tileGridPosition.y);
+        if (selectedItem != null)
+        {
+            rectTransform = selectedItem.GetComponent<RectTransform>();
+        }
+    }
+
+    private void ItemIconDrag()
+    {
+        if (selectedItem != null)
+        {
+            rectTransform.position = Input.mousePosition;
+        }
     }
 }

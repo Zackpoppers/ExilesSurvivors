@@ -5,14 +5,30 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [HideInInspector]
-    public ItemGrid selectedItemGrid;
+    private ItemGrid selectedItemGrid;
+    InventoryItem itemToHightlight;
+    public ItemGrid SelectedItemGrid { 
+        get => selectedItemGrid; 
+        set {
+            selectedItemGrid = value;
+            inventoryHighlight.SetParent(value);
+        }
+    }
 
     InventoryItem selectedItem;
+    InventoryItem overlapItem;
     RectTransform rectTransform;
 
     public List<ItemData> items;
     public GameObject itemPrefab;
     public Transform canvasTransform;
+
+    InventoryHighlight inventoryHighlight;
+
+    private void Awake()
+    {
+        inventoryHighlight = GetComponent<InventoryHighlight>();
+    }
 
     private void Update()
     {
@@ -20,14 +36,91 @@ public class UIManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            CreateRandomItem();
+            if (selectedItem == null)
+            {
+                CreateRandomItem();
+            }
         }
 
-        if (selectedItemGrid == null) { return; }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            InsertRandomItem();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RotateItem();
+        }
+
+        if (selectedItemGrid == null) 
+        {
+            inventoryHighlight.Show(false);
+            return; 
+        }
+
+        HandleHighlight();
 
         if (Input.GetMouseButtonDown(0))
         {
             LeftMouseButtonPress();
+        }
+    }
+
+    private void RotateItem()
+    {
+        if (selectedItem == null) { return; }
+
+        selectedItem.Rotate();
+    }
+
+    private void InsertRandomItem()
+    {
+        CreateRandomItem();
+        InventoryItem itemToInsert = selectedItem;
+        selectedItem = null;
+        InsertItem(itemToInsert);
+    }
+
+    private void InsertItem(InventoryItem itemToInsert)
+    {
+        if (selectedItemGrid == null) { return; }
+
+        Vector2Int? posOnGrid = selectedItemGrid.FindSpaceForObject(itemToInsert);
+
+        if (posOnGrid == null) { return; }
+
+        selectedItemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
+    }
+
+    Vector2Int oldPosition;
+    private void HandleHighlight()
+    {
+        Vector2Int positionOnGrid = GetTileGridPosition();
+        if (oldPosition == positionOnGrid) { return; }
+
+        oldPosition = positionOnGrid;
+        if (selectedItem == null)
+        {
+            itemToHightlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
+            if (itemToHightlight != null)
+            {
+                inventoryHighlight.Show(true);
+                inventoryHighlight.SetSize(itemToHightlight);
+                inventoryHighlight.SetPosition(selectedItemGrid, itemToHightlight);
+            } else
+            {
+                inventoryHighlight.Show(false);
+            }
+        } else
+        {
+            inventoryHighlight.Show(selectedItemGrid.BoundryCheck(
+                positionOnGrid.x, 
+                positionOnGrid.y, 
+                selectedItem.WIDTH,
+                selectedItem.HEIGHT
+                ));
+            inventoryHighlight.SetSize(selectedItem);
+            inventoryHighlight.SetPosition(selectedItemGrid, selectedItem, positionOnGrid.x, positionOnGrid.y);
         }
     }
 
@@ -38,6 +131,7 @@ public class UIManager : MonoBehaviour
 
         rectTransform = inventoryItem.GetComponent<RectTransform>();
         rectTransform.SetParent(canvasTransform);
+        rectTransform.SetAsLastSibling();
 
         int selectedItemID = UnityEngine.Random.Range(0, items.Count);
         inventoryItem.Set(items[selectedItemID]);
@@ -45,7 +139,7 @@ public class UIManager : MonoBehaviour
 
     private void LeftMouseButtonPress()
     {
-        Vector2Int tileGridPosition = selectedItemGrid.GetTileGridPosition(Input.mousePosition);
+        Vector2Int tileGridPosition = GetTileGridPosition();
 
         if (selectedItem == null)
         {
@@ -57,10 +151,33 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private Vector2Int GetTileGridPosition()
+    {
+        Vector2 position = Input.mousePosition;
+
+        if (selectedItem != null)
+        {
+            position.x -= (selectedItem.WIDTH - 1) * ItemGrid.tileSizeWidth / 2;
+            position.y += (selectedItem.HEIGHT - 1) * ItemGrid.tileSizeHeight / 2;
+        }
+
+        return selectedItemGrid.GetTileGridPosition(position);
+    }
+
     private void PlaceItem(Vector2Int tileGridPosition)
     {
-        selectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y);
-        selectedItem = null;
+        bool complete = selectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
+        if (complete)
+        {
+            selectedItem = null;
+            if (overlapItem != null)
+            {
+                selectedItem = overlapItem;
+                overlapItem = null;
+                rectTransform = selectedItem.GetComponent<RectTransform>();
+                rectTransform.SetAsLastSibling();
+            }
+        }
     }
 
     private void PickUpItem(Vector2Int tileGridPosition)

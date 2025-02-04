@@ -105,7 +105,7 @@ MonoBehaviour:
   Armor: 10
   MovementSpeed: 5
   ActiveSkills:
-  - {fileID: 11400000, guid: d47895b490e47ac44b894ed9602cb3ac, type: 2}
+  - {fileID: 11400000, guid: 0def6ef7a0268624985520b8586abf51, type: 2}
 --- !u!58 &7077219146090288639
 CircleCollider2D:
   m_ObjectHideFlags: 0

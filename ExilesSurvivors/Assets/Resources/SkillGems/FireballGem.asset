@@ -14,13 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 3987807337699059250, guid: 5aa63531dba8022479a14312bc51e19c, type: 3}
   Name: 
-  Description: 
-  Icon: {fileID: 0}
   Cooldown: 1
-  BaseDamage: 1
-  Level: 1
-  IsAwakened: 0
+  BaseDamage: 10
   SupportGems:
-  - {fileID: 11400000, guid: 9ada0d3f816c28f4aadf998672a8203e, type: 2}
-  projectileSpeed: 10
-  explosionRadius: 1
+  - {fileID: 11400000, guid: cf3a6838c2f7140419679dcc475dcf1b, type: 2}
+  - {fileID: 11400000, guid: 20e1d480c3441e641b45ab02bb50d098, type: 2}
+  projectileSpeed: 15
+  explosionRadius: 2

@@ -7,12 +7,45 @@ public class Player : MonoBehaviour
     public float Health = 100f;
     public float Armor = 10f;
     public float MovementSpeed = 5f;
-    public List<Skill> ActiveSkills = new List<Skill>();
+    public List<SkillGem> ActiveSkills = new List<SkillGem>();
     public Inventory Inventory;
+
+    private bool _supportsApplied;
 
     private void Start()
     {
-        ActiveSkills[0].SupportGems[0].ApplySupport(ActiveSkills[0]);
+        ApplyAllSupports();
+    }
+
+    private void ApplyAllSupports()
+    {
+        if (_supportsApplied) return;
+
+        foreach (var skill in ActiveSkills)
+        {
+            foreach (var support in skill.SupportGems)
+            {
+                support.ApplySupport(skill);
+            }
+        }
+        _supportsApplied = true;
+    }
+
+    private void OnEnable()
+    {
+        // Reset when entering play mode
+        _supportsApplied = false;
+    }
+
+    private void HandleSkills()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            
+            ActiveSkills[0].Activate(this);
+            
+
+        }
     }
 
     private void Update()
@@ -28,17 +61,7 @@ public class Player : MonoBehaviour
         transform.Translate(new Vector3(moveX, moveY, 0));
     }
 
-    private void HandleSkills()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && ActiveSkills.Count > 0)
-        {
-            
-            //ActiveSkills[0].SupportGems[1].ApplySupport(ActiveSkills[0]);
-
-            ActiveSkills[0].Activate(this);
-            
-        }
-    }
+    
 
     public void TakeDamage(float damage)
     {

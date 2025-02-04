@@ -10,5 +10,5 @@ public abstract class SupportGem : ScriptableObject
     public Sprite icon;
 
     // Method to modify a skill gem
-    public abstract void ApplySupport(Skill targetSkill);
+    public abstract void ApplySupport(SkillGem skill);
 }

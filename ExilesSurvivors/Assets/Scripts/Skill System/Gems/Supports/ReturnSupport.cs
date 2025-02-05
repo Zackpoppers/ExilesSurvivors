@@ -10,18 +10,15 @@ public class ReturnSupportGem : SupportGem
 
     private void HandleProjectileSpawned(Projectile projectile)
     {
-        if (projectile is IExplodable explodable)
-        {
-            explodable.OnExplode += ReturnProjectile;
-        }
+        projectile.OnDestroyed += ReturnProjectile;
     }
 
-    private void ReturnProjectile(Vector2 position, Vector2 direction, Projectile original)
+    private void ReturnProjectile(Projectile original)
     {
-        var newProjectile = Instantiate(original.gameObject, position, Quaternion.identity)
+        var newProjectile = Instantiate(original.gameObject, original.rb.position, Quaternion.identity)
                  .GetComponent<Projectile>();
 
-        newProjectile.Initialize(direction*-1, original.Speed, original.Damage);
+        newProjectile.Initialize(original.direction *-1, original.Speed, original.Damage);
         newProjectile.HitEnemies.UnionWith(original.HitEnemies);
     }
 }

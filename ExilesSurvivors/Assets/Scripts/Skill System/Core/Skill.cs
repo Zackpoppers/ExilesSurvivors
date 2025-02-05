@@ -11,6 +11,7 @@ public abstract class SkillGem : ScriptableObject
     public float BaseDamage = 10f;
     public List<SupportGem> SupportGems = new List<SupportGem>();
     public event Action<Projectile> OnProjectileSpawned;
+    public event Action<Player, Projectile> OnSkillActivate;
 
     private float lastUsedTime;
 

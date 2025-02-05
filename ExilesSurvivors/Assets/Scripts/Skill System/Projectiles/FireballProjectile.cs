@@ -17,6 +17,7 @@ public class FireballProjectile : Projectile, IExplodable
         {
             HitEnemies.Add(other.gameObject);
             Explode();
+            OnDestroy();
             Destroy(gameObject);
         }
     }

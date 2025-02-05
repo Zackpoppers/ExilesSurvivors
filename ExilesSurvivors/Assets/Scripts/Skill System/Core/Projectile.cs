@@ -52,6 +52,18 @@ public abstract class Projectile : MonoBehaviour
         OnCreated = null;
         OnDestroyed = null;
     }
+
+    public virtual void SetOnDestroy(Action<Projectile> DestroyEvent) {
+
+        this.OnDestroyed = DestroyEvent;
+    
+    }
+
+    public virtual Action<Projectile> ReturnOnDestroy() {
+
+        return this.OnDestroyed;
+
+    }
 }
 
 public class ProjectileHitEventArgs : EventArgs

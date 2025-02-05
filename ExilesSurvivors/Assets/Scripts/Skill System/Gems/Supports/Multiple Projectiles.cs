@@ -15,19 +15,21 @@ public class MultipleProjectilesSupport : SupportGem
 
     private void HandleProjectileSpawned(Projectile projectile)
     {
-        projectile.OnCreated += DuplicateProjectile;
+        //projectile.OnCreated += DuplicateProjectile;
     }
 
     private void DuplicateProjectile(Projectile original)
     {
 
         
+
+
         Vector2 baseDirection = original.direction.normalized;
 
-        for (int i = 1; i < 5; i++)
+        for (int i = 0; i < numberOfProjectiles; i++) // Start from 0 for the correct indexing
         {
-            // Calculate angle offset (-30°, -10°, +10°, +30°)
-            float angleOffset = -totalSpread / 2 + (i - 1) * (totalSpread / (numberOfProjectiles - 1));
+            // Calculate angle offset based on the total spread and the index
+            float angleOffset = -totalSpread / 2 + i * (totalSpread / (numberOfProjectiles - 1));
 
             // Calculate rotated direction
             Vector2 spreadDirection = Quaternion.Euler(0, 0, angleOffset) * baseDirection;
@@ -43,9 +45,10 @@ public class MultipleProjectilesSupport : SupportGem
 
             if (projectileObj.TryGetComponent<Projectile>(out var projectile))
             {
-                projectile.Initialize(spreadDirection, original.Speed/2.8f, original.Damage);
-
+                projectile.Initialize(spreadDirection, original.Speed / 2.8f, original.Damage);
+                projectile.SetOnDestroy(original.ReturnOnDestroy());
             }
         }
+
     }
 }

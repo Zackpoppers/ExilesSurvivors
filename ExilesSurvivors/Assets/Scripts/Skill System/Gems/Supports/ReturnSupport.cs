@@ -19,6 +19,9 @@ public class ReturnSupportGem : SupportGem
                  .GetComponent<Projectile>();
 
         newProjectile.Initialize(original.direction *-1, original.Speed, original.Damage);
+        newProjectile.CopyProjectileEvents(original);
+
         newProjectile.HitEnemies.UnionWith(original.HitEnemies);
+
     }
 }

@@ -21,10 +21,10 @@ public class MultipleProjectilesSupport : SupportGem
     private void DuplicateProjectile(Projectile original)
     {
 
-        
 
 
-        Vector2 baseDirection = original.direction.normalized;
+
+        Vector2 baseDirection = original.direction;
 
         for (int i = 0; i < numberOfProjectiles; i++) // Start from 0 for the correct indexing
         {
@@ -45,8 +45,8 @@ public class MultipleProjectilesSupport : SupportGem
 
             if (projectileObj.TryGetComponent<Projectile>(out var projectile))
             {
-                projectile.Initialize(spreadDirection, original.Speed / 2.8f, original.Damage);
-                projectile.SetOnDestroy(original.ReturnOnDestroy());
+                projectile.Initialize(spreadDirection, original.Speed, original.Damage);
+                projectile.CopyProjectileEvents(original);
             }
         }
 

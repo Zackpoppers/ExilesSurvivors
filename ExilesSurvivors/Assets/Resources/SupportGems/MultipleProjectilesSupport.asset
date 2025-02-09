@@ -15,3 +15,5 @@ MonoBehaviour:
   gemName: 
   description: 
   icon: {fileID: 0}
+  totalSpread: 20
+  numberOfProjectiles: 2

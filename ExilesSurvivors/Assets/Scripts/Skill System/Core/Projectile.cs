@@ -18,17 +18,23 @@ public abstract class Projectile : MonoBehaviour
 
     public virtual void Initialize(Vector2 direction, float speed, float damage)
     {
-        
+
+        //parent the projectile game object to a folder called projectiles
+        gameObject.transform.SetParent(GameObject.Find("Projectiles").transform);
         this.direction = direction;
         Speed = speed;
         Damage = damage;
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = direction * Speed;
+        rb.velocity = direction.normalized * Speed;
         OnCreated?.Invoke(this);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("BoundingBox")){
+            Destroy(gameObject);
+        }
+
         var args = new ProjectileHitEventArgs(other);
         OnHit?.Invoke(this, args);
 
@@ -53,16 +59,12 @@ public abstract class Projectile : MonoBehaviour
         OnDestroyed = null;
     }
 
-    public virtual void SetOnDestroy(Action<Projectile> DestroyEvent) {
+    public virtual void CopyProjectileEvents(Projectile ProjectileToCopyFrom) {
 
-        this.OnDestroyed = DestroyEvent;
+        OnDestroyed += ProjectileToCopyFrom.OnDestroyed;
+        OnCreated += ProjectileToCopyFrom.OnCreated;
+        OnHit += ProjectileToCopyFrom.OnHit;
     
-    }
-
-    public virtual Action<Projectile> ReturnOnDestroy() {
-
-        return this.OnDestroyed;
-
     }
 }
 

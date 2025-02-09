@@ -17,8 +17,7 @@ MonoBehaviour:
   Cooldown: 1
   BaseDamage: 10
   SupportGems:
-  - {fileID: 11400000, guid: 803d197711b5dc84dac6f36839535424, type: 2}
-  - {fileID: 11400000, guid: ca0bfcb3dfe0cad42b511f7ea7408d14, type: 2}
   - {fileID: 11400000, guid: cf3a6838c2f7140419679dcc475dcf1b, type: 2}
-  projectileSpeed: 5
+  - {fileID: 11400000, guid: 20e1d480c3441e641b45ab02bb50d098, type: 2}
+  projectileSpeed: 15
   explosionRadius: 2

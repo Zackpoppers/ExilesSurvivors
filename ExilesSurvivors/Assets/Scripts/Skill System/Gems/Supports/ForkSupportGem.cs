@@ -23,12 +23,11 @@ public class ForkSupportGem : SupportGem
             float angle = -forkAngle / 2 + i * (forkAngle / (forkCount - 1));
             Vector2 newDir = Quaternion.Euler(0, 0, angle) * original.direction;
 
-            var newProjectile = Instantiate(original.gameObject, original.rb.position, Quaternion.identity).GetComponent<Projectile>();
+            var newProjectile = Instantiate(original.gameObject, original.rb.position, Quaternion.identity)
+                .GetComponent<Projectile>();
+
             newProjectile.Initialize(newDir, original.Speed, original.Damage);
-            //newProjectile.CopyProjectileEvents(original); Add back in when we find a way to remove the fork support off the copy
-
             newProjectile.HitEnemies.UnionWith(original.HitEnemies);
-
         }
     }
 }

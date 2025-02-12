@@ -13,10 +13,7 @@ public class MultipleProjectilesSupport : SupportGem
         skill.OnProjectileSpawned += DuplicateProjectile;
     }
 
-    private void HandleProjectileSpawned(Projectile projectile)
-    {
-        //projectile.OnCreated += DuplicateProjectile;
-    }
+    
 
     private void DuplicateProjectile(Projectile original)
     {

@@ -16,6 +16,7 @@ MonoBehaviour:
   Name: 
   Cooldown: 1
   BaseDamage: 30
-  ProjectileSpeed: 10
-  SupportGems: []
+  ProjectileSpeed: 5
+  SupportGems:
+  - {fileID: 11400000, guid: 2909ab2f37caa9042992dbf2e41f245d, type: 2}
   explosionRadius: 2

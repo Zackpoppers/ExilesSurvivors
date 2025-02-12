@@ -6,12 +6,9 @@ public class ForkSupportGem : SupportGem
     public int forkCount = 2;
     public float forkAngle = 45f;
 
-    public override void ApplySupport(SkillGem skill)
-    {
-        skill.OnProjectileSpawned += HandleProjectileSpawned;
-    }
+    
 
-    private void HandleProjectileSpawned(Projectile projectile)
+    protected override void HandleProjectileSpawned(Projectile projectile)
     {
         projectile.OnDestroyed += ForkProjectile;
     }

@@ -110,6 +110,7 @@ MonoBehaviour:
   MovementSpeed: 5
   ActiveSkills:
   - {fileID: 11400000, guid: 0def6ef7a0268624985520b8586abf51, type: 2}
+  - {fileID: 11400000, guid: ae14df167552c48498e30fb8a246c4a8, type: 2}
 --- !u!114 &6976391041791486377
 MonoBehaviour:
   m_ObjectHideFlags: 0

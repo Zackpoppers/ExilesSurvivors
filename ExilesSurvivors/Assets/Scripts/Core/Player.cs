@@ -43,6 +43,10 @@ public class Player : MonoBehaviour
         {
             ActiveSkills[0].Activate(this);
         }
+        else if (ActiveSkills.Count > 1 && Input.GetMouseButtonDown(0))
+        {
+            ActiveSkills[1].Activate(this);
+        }
     }
 
     public void TakeDamage(float damage)

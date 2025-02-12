@@ -692,7 +692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentWave: 1
-  EnemySpawnRate: 5
+  EnemySpawnRate: 10
   BossSpawnInterval: 5
   InitialEnemyCount: 5
   SpawnDistance: 20

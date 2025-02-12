@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6bc9e8cecb3bba46925c2719eb36fd9, type: 3}
-  m_Name: MultipleProjectilesSupport
+  m_Script: {fileID: 11500000, guid: 4f3bc16bc2c8f1f4285165aa07c062ad, type: 3}
+  m_Name: PierceSupportGem
   m_EditorClassIdentifier: 
   gemName: 
   description: 
   icon: {fileID: 0}
-  totalSpread: 20
-  numberOfProjectiles: 8

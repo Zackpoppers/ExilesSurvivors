@@ -10,5 +10,13 @@ public abstract class SupportGem : ScriptableObject
     public Sprite icon;
 
     // Method to modify a skill gem
-    public abstract void ApplySupport(SkillGem skill);
+    public virtual void ApplySupport(SkillGem skill)
+    {
+        skill.OnProjectileSpawned += HandleProjectileSpawned;
+    }
+
+    protected virtual void HandleProjectileSpawned(Projectile projectile)
+    {
+        
+    }
 }

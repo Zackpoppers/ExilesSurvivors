@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] public Character character; // Reference to the Character component
     public float MovementSpeed = 5f;
-    public List<SkillGem> ActiveSkills;
+    [SerializeField] public List<SkillGem> ActiveSkills;
     public Inventory Inventory;
 
     private void Start()
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
 
     private void HandleSkills()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (ActiveSkills.Count > 0 && Input.GetKeyDown(KeyCode.Space))
         {
             ActiveSkills[0].Activate(this);
         }
@@ -56,9 +56,13 @@ public class Player : MonoBehaviour
             Die();
         }
     }
+
+    private bool _supportsApplied = false;
+
     private void ApplyAllSupports()
     {
-        
+        if (_supportsApplied) return;
+
         foreach (var skill in ActiveSkills)
         {
             foreach (var support in skill.SupportGems)
@@ -66,7 +70,7 @@ public class Player : MonoBehaviour
                 support.ApplySupport(skill);
             }
         }
-        
+        _supportsApplied = true;
     }
 
     private void Die()

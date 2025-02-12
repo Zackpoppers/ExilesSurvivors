@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8190754495915154200}
   - component: {fileID: 9162339651312299839}
   - component: {fileID: 5318005137603360581}
+  - component: {fileID: 6976391041791486377}
   - component: {fileID: 7077219146090288639}
   - component: {fileID: 1089684693051132068}
   m_Layer: 0
@@ -105,11 +106,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ac226e17474904abeeeb8cb77a5843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
-  Armor: 10
+  character: {fileID: 6976391041791486377}
   MovementSpeed: 5
   ActiveSkills:
   - {fileID: 11400000, guid: 0def6ef7a0268624985520b8586abf51, type: 2}
+--- !u!114 &6976391041791486377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114470389159029463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87b4aa3d6104f04ba1ac34721236787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifePool:
+    currentValue: 0
 --- !u!58 &7077219146090288639
 CircleCollider2D:
   m_ObjectHideFlags: 0

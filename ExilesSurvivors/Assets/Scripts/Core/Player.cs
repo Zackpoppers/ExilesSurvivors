@@ -1,51 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float Health = 100f;
-    public float Armor = 10f;
+    [SerializeField] public Character character; // Reference to the Character component
     public float MovementSpeed = 5f;
     public List<SkillGem> ActiveSkills = new List<SkillGem>();
     public Inventory Inventory;
 
-    private bool _supportsApplied;
-
     private void Start()
     {
-        ApplyAllSupports();
-    }
+        // Get the Character component
+        character = GetComponent<Character>();
 
-    private void ApplyAllSupports()
-    {
-        if (_supportsApplied) return;
-
-        foreach (var skill in ActiveSkills)
+        if (character == null)
         {
-            foreach (var support in skill.SupportGems)
-            {
-                support.ApplySupport(skill);
-            }
+            Debug.LogError("Character component missing on Player!");
+            return;
         }
-        _supportsApplied = true;
-    }
 
-    private void OnEnable()
-    {
-        // Reset when entering play mode
-        _supportsApplied = false;
-    }
-
-    private void HandleSkills()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            
-            ActiveSkills[0].Activate(this);
-            
-
-        }
+        // Register with the HealthBarManager
+        HealthBarManager.Instance.AddHealthBar(character, transform);
     }
 
     private void Update()
@@ -61,17 +36,36 @@ public class Player : MonoBehaviour
         transform.Translate(new Vector3(moveX, moveY, 0));
     }
 
-    
+    private void HandleSkills()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) && ActiveSkills.Count > 0)
+        {
+            ActiveSkills[0].Activate(this);
+        }
+    }
 
     public void TakeDamage(float damage)
     {
-        Health -= damage;
-        if (Health <= 0) Die();
+        // Use the Character's TakeDamage method for centralized damage calculations
+        character.TakeDamage((int)damage);
+
+        // Check if the player has died
+        if (character.LifePool.currentValue <= 0)
+        {
+            Die();
+        }
     }
 
     private void Die()
     {
         Debug.Log("Player Died!");
         GameManager.Instance.OnPlayerDeath();
+    }
+
+    // Example method to heal the player
+    public void Heal(int amount)
+    {
+        character.LifePool.currentValue = Mathf.Min(character.LifePool.currentValue + amount, character.LifePool.maxValue.value);
+        Debug.Log("Player healed. Current Health: " + character.LifePool.currentValue);
     }
 }

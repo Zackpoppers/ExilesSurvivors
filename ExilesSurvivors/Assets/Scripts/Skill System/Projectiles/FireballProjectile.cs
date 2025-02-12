@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public interface IExplodable
 {
@@ -40,7 +41,7 @@ public class FireballProjectile : Projectile, IExplodable
         {
             if (hit.CompareTag("Enemy") && hit.TryGetComponent<Enemy>(out var enemy))
             {
-                enemy.TakeDamage(Damage);
+                enemy.TakeDamage((int)Damage);
             }
         }
     }

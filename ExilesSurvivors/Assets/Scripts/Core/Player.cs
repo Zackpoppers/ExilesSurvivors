@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] public Character character; // Reference to the Character component
     public float MovementSpeed = 5f;
-    public List<SkillGem> ActiveSkills = new List<SkillGem>();
+    public List<SkillGem> ActiveSkills;
     public Inventory Inventory;
 
     private void Start()
@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 
         // Register with the HealthBarManager
         HealthBarManager.Instance.AddHealthBar(character, transform);
+        ApplyAllSupports();
     }
 
     private void Update()
@@ -38,7 +39,7 @@ public class Player : MonoBehaviour
 
     private void HandleSkills()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && ActiveSkills.Count > 0)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             ActiveSkills[0].Activate(this);
         }
@@ -54,6 +55,18 @@ public class Player : MonoBehaviour
         {
             Die();
         }
+    }
+    private void ApplyAllSupports()
+    {
+        
+        foreach (var skill in ActiveSkills)
+        {
+            foreach (var support in skill.SupportGems)
+            {
+                support.ApplySupport(skill);
+            }
+        }
+        
     }
 
     private void Die()

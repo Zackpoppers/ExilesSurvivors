@@ -109,7 +109,6 @@ MonoBehaviour:
   character: {fileID: 6976391041791486377}
   MovementSpeed: 5
   ActiveSkills:
-<<<<<<< Updated upstream:ExilesSurvivors/Assets/Prefabs/GameObjectPrefabs/Player.prefab
   - {fileID: 11400000, guid: 0def6ef7a0268624985520b8586abf51, type: 2}
 --- !u!114 &6976391041791486377
 MonoBehaviour:
@@ -125,9 +124,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifePool:
     currentValue: 0
-=======
-  - {fileID: 11400000, guid: c60bb527ed9872c4f873b4c68e0f8dd9, type: 2}
->>>>>>> Stashed changes:ExilesSurvivors/Assets/Prefabs/Player.prefab
 --- !u!58 &7077219146090288639
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ public abstract class SkillGem : ScriptableObject
     public float Cooldown = 1f;
     public float BaseDamage = 10f;
     public float ProjectileSpeed = 1f;
-    public List<SupportGem> SupportGems = new List<SupportGem>();
+    public List<SupportGem> SupportGems;
     public event Action<Projectile> OnProjectileSpawned;
     public event Action<Player, Projectile> OnSkillActivate;
 

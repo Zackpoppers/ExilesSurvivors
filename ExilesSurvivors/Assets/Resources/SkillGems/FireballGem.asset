@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ebb45fd4a777649a647e26601f1eba, type: 3}
   m_Name: FireballGem
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 3987807337699059250, guid: 824a324157900e54684706e5ac53e345, type: 3}
+  projectilePrefab: {fileID: 0}
   Name: 
   Cooldown: 1
   BaseDamage: 10
+  ProjectileSpeed: 1
   SupportGems:
   - {fileID: 11400000, guid: 803d197711b5dc84dac6f36839535424, type: 2}
-  - {fileID: 11400000, guid: ca0bfcb3dfe0cad42b511f7ea7408d14, type: 2}
-  - {fileID: 11400000, guid: cf3a6838c2f7140419679dcc475dcf1b, type: 2}
-  projectileSpeed: 5
   explosionRadius: 2

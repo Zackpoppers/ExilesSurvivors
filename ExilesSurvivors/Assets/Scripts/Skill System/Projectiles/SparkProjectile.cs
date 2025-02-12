@@ -121,7 +121,7 @@ public class SparkProjectile : Projectile
 
             if (other.CompareTag("Enemy") && other.TryGetComponent<Enemy>(out var enemy))
             {
-                enemy.TakeDamage(Damage);
+                enemy.TakeDamage((int)Damage);
             }
         }
     }

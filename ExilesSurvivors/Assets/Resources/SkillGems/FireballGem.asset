@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ebb45fd4a777649a647e26601f1eba, type: 3}
   m_Name: FireballGem
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 3987807337699059250, guid: 5aa63531dba8022479a14312bc51e19c, type: 3}
+  projectilePrefab: {fileID: 3987807337699059250, guid: 824a324157900e54684706e5ac53e345, type: 3}
   Name: 
   Cooldown: 1
   BaseDamage: 10

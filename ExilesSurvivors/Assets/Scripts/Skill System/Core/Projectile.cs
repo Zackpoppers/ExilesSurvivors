@@ -66,6 +66,12 @@ public abstract class Projectile : MonoBehaviour
         OnHit += ProjectileToCopyFrom.OnHit;
     
     }
+
+    public virtual void ActivateOnCreateEvents() {
+
+        OnCreated?.Invoke(this);
+
+    }
 }
 
 public class ProjectileHitEventArgs : EventArgs

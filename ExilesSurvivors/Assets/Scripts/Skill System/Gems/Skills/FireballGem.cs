@@ -5,7 +5,6 @@ using UnityEngine;
 public class FireballGem : SkillGem
 {
     [Header("Fireball Settings")]
-    public float projectileSpeed = 15f;
     public float explosionRadius = 2f;
 
     protected override void SpawnProjectile(Vector2 position, Vector2 direction)
@@ -16,11 +15,11 @@ public class FireballGem : SkillGem
 
         if (fireball != null)
         {
-            fireball.Initialize(direction, projectileSpeed, BaseDamage);
+            fireball.Initialize(direction, ProjectileSpeed, BaseDamage);
             fireball.ExplosionRadius = explosionRadius;
             InvokeProjectileSpawned(fireball);
         }
     }
 
-    protected override float GetProjectileSpeed() => projectileSpeed;
+    
 }
